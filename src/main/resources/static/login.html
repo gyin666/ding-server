@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="user-scalable=no,width=device-width,initial-scale=1,maximum-scale=1">
+	<title>欢迎访问EAS系统</title>
+	<link rel="stylesheet" type="text/css" href="/css/common.css">
+	<link rel="stylesheet" type="text/css" href="/css/login.css">
+	<script src="/js/jquery-1.10.2.js"></script>
+	<script>
+       // var userId = "${userId}";
+      //  alert(userId);
+       var uid;
+       var currentUrl = document.location.toString();
+        // 解析url中包含的corpId
+      var userId = currentUrl.split("userId=")[1];
+       uid = userId;
+        var url = "http://kingdee.ngrok2.xiaomiqiu.cn/eas/doEasLogin?userId=" + uid;
+       // alert(url);
+        var easUrl =  "http://kingdee.ngrok2.xiaomiqiu.cn/ding/gotoEas?userId=" + uid;
+        $(function(){
+            $("#button").click(function(event){
+                $.post(url,{
+                        username: $("#login_user_name").val(),
+                        password: $("#login_password").val(),
+                        userid: uid,
+                    },function(data){
+                        alert("登录返回结果："+data);
+                        if (data) {
+                            location.href = easUrl;//跳转流程助手主页
+                        }
+                        else{
+                            alert("登录失败，请重试！");
+                        }
+                    },
+                    "json")
+            })
+        })
+	</script>
+</head>
+<body>
+<div class="login_cont">
+	<div class="login_nav">
+		<div class="nav_slider">
+			<a href="#" class="signin focus">EAS用户登录3333</a>
+		</div>
+	</div>
+
+	<form>
+		<div class="input_signin active">
+			<input class="input" id="login_user_name" type="text" aria-label="用户名" placeholder="用户名">
+			<div class="hint">请输入用户名</div>
+			<input class="input" id="login_password" type="password" aria-label="密码" placeholder="密码">
+			<div class="hint">请输入密码</div>
+			<input type="submit" id="button" class="button" name="button" value="登录">
+			<div class="forget">
+				<a href="forget.html">忘记密码？</a>
+			</div>
+		</div>
+	</form>
+</div>
+<!--<script type="text/javascript" src="/js/login.js"></script>-->
+<!--<script type="text/javascript" src="/js/form.js"></script>-->
+<script type="text/javascript" src="/js/config.js"></script>
+<!--<script type="text/javascript" src="/js/login_ajax.js"></script>-->
+</body>
+</html>

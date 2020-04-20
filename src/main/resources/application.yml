@@ -1,0 +1,23 @@
+server:
+  port: 9000
+
+logging:
+  level:
+    ROOT: info
+    cn.lnexin: debug
+
+spring:
+    # 环境 dev:开发环境|test:测试环境|prod:生产环境
+    profiles:
+        active: prod #激活的配置文件
+ding:
+  suite:
+    id: 9591001
+    key: suitej4obvdijken8qdzm
+    secret: _Q4z2l0xkTQby5XyFFcKJOFkwcQUWzy5NWeI93aWLsj2cfLgBotCchuAENMxYZow
+    token: UserAccessToken
+    aes-key: m60387sv97e2kzb5mane7k78u67zealbm081izbh1ws
+    ticket: userTicket
+mybatis:
+  mapper-locations: classpath:mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
+  type-aliases-package: cn.lnexin.dingtalk.entity  # 注意：对应实体类的路径

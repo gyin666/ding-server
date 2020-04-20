@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>欢迎访问EAS系统</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1 user-scalable=0" />
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="http://g.alicdn.com/dingding/open-develop/1.9.0/dingtalk.js"></script>
+    <script type="text/javascript" src="js/config.js"></script>
+</head>
+<body>
+<br />
+<div>
+    <!--    <p id="code"></p>
+        <br />
+        <p id="userid"></p>
+        <br />
+        <p id="username"></p>
+        <br />
+        <p>请求我们服务端,登录返回的结果:</p>
+        <p id="result"></p>-->
+</div>
+
+<script type="text/javascript">
+    var corpId;
+    dd.ready(function() {
+        var currentUrl = document.location.toString();
+        // 解析url中包含的corpId
+        corpId = currentUrl.split("corpid=")[1];
+        alert(corpId);
+        //获取code
+        //必须
+        dd.runtime.permission.requestAuthCode({
+            corpId : corpId,
+            onSuccess : function(result) {
+                var code = result.code;
+                // $("#code").text("钉钉传向后台CODE:" + code);
+                getUserid(code,corpId);
+            },
+            onFail : function(err) {
+                alert('出错了, ' + err.toString());
+            }
+        });
+
+    });
+    var userId;
+
+    //判断是否绑定EAS用户名
+    function isMapper() {
+        $.ajax({
+            type : "GET",
+            url : dev_host+"/eas/isMapper?userId=" + userId,
+            async : false,
+            dataType : 'json',
+            contentType : "application/json;charset=utf-8",
+            success : (function(data) {
+                //  alert(77777);
+                if (data.status=="success") {//已绑定跳转流程助手主页
+                    //     alert(1111);
+                    gotoEas();
+                }else {//校验失败，跳转登录页
+                    //alert(2222);
+                    window.location.href=dev_host+"/eas/gotoLogin?userId=" + userId;
+                    //  gotoLogin();
+                }
+            }),
+        });
+    }
+    //跳转登录页面
+    function gotoLogin () {
+        //  alert(999);
+        $.ajax({
+            type: "GET",
+            url: dev_host+"/eas/gotoLogin?userId=" + userId,
+            async: false,
+            dataType: 'json',
+            contentType: "application/json;charset=utf-8",
+            success: (function (data) {
+                // alert(88888);
+            }),
+        });
+    }
+
+    //跳转EAS流程助手主页
+    function gotoEas () {
+        $.ajax({
+            type : "GET",
+            url : dev_host+"/ding/gotoEas?userId=" + userId,
+            async : false,
+            dataType : 'json',
+            contentType : "application/json;charset=utf-8",
+            success : (function(data) {
+                //   alert(666666);
+                window.location.href=data.gotoURL;
+            }),
+        });
+    }
+
+
+</script>
+</body>
+
+</html>

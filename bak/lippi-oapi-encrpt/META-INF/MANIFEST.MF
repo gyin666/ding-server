@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: mxh
+Build-Jdk: 1.8.0_91
+artifactId: lippi.oapi.encryt
+groupId: com.laiwang.lippi
+timestamp: 04192031
+version: 1.0.4-SNAPSHOT
+

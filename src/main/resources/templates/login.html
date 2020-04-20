@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="user-scalable=no,width=device-width,initial-scale=1,maximum-scale=1">
+    <title></title>
+    <!--<link rel="stylesheet" type="text/css" href="../static/css/common.css">-->
+    <link rel="stylesheet" th:href="@{/css/common.css}"></link>
+    <link rel="stylesheet" th:href="@{/css/login.css}"></link>
+    <!--	<link rel="stylesheet" type="text/css" href="../static/css/login.css">--></head>
+<head>
+    <script type="text/javascript" th:src="@{/js/jquery-1.10.2.js}"></script>
+    <script>
+        //alert(123);
+        $(function(){
+          var currentUrl = document.location.toString();
+            userId = currentUrl.split("userId=")[1];
+            sessionStorage.setItem("userId",userId);
+         //   alert(userId);
+       //     alert(777);
+        });
+
+
+//alert("uid："+uid);
+        //登录验证
+        function submitLogin () {
+          //  alert(444);
+            var url = dev_host+"/eas/doEasLogin";
+            $.post(url,{
+                    username: $("#login_user_name").val(),
+                    password: $("#login_password").val()
+                },function(data){
+                  //  alert(data);
+                    if (data) {
+                        doUserMapper(); //绑定钉钉用户名
+                    }
+                    else{
+                        alert("登录失败，请重试！");
+                    }
+                },
+                "json")
+        }
+        //绑定钉钉用户名
+        function doUserMapper () {
+         //   alert(222);
+            var uid = sessionStorage.getItem("userId");
+            var url = dev_host+"/eas/doUserMapper";
+            $.post(url,{
+                    usernumber: $("#login_user_name").val(),
+                    userId: uid
+                },function(data){
+               //  alert("绑定成功"+data);
+                    gotoEas();//跳转EAS流程助手主页
+                },
+                "json")
+        }
+        //跳转EAS流程助手主页
+        function gotoEas () {
+            var uid = sessionStorage.getItem("userId");
+            $.ajax({
+                type : "GET",
+                url : dev_host+"/ding/gotoEas?userId=" + uid,
+                async : false,
+                dataType : 'json',
+                contentType : "application/json;charset=utf-8",
+                success : (function(data) {
+                 //   alert(666666);
+                    window.location.href=data.gotoURL;
+                }),
+            });
+        }
+
+    </script>
+</head>
+<body>
+<div class="login_cont">
+	<div class="login_nav">
+		<div class="nav_slider">
+			<a href="#" class="signin focus">用户登录</a>
+		</div>
+	</div>
+
+	<form>
+		<div class="input_signin active">
+			<input class="input" id="login_user_name" type="text" aria-label="用户名" placeholder="用户名">
+			<div class="hint">请输入用户名</div>
+			<input class="input" id="login_password" type="password" aria-label="密码" placeholder="密码">
+			<div class="hint">请输入密码</div>
+			<input type="button" id="button" class="button" name="button" value="登录" onclick="submitLogin();">
+
+		</div>
+	</form>
+</div>
+<!--<script type="text/javascript" th:src="@{/js/login.js}"></script>
+<script type="text/javascript" th:src="@{/js/form.js}"></script>-->
+<script type="text/javascript" th:src="@{/js/config.js}"></script>
+<!--<script type="text/javascript" th:src="@{/js/login_ajax.js}"></script>-->
+
+</body>
+</html>

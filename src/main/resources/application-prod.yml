@@ -1,0 +1,28 @@
+server:
+  port: 9000
+
+logging:
+  level:
+    ROOT: info
+    cn.lnexin: debug
+
+spring:
+    datasource:
+        name: Oracle
+        url: jdbc:oracle:thin:@192.168.20.117:1521:orcl
+        username: ZKBF
+        password: ZKBF
+        driver-class-name: oracle.jdbc.driver.OracleDriver
+
+ding:
+  suite:
+    id: 9591001
+    key: suitej4obvdijken8qdzm
+    secret: _Q4z2l0xkTQby5XyFFcKJOFkwcQUWzy5NWeI93aWLsj2cfLgBotCchuAENMxYZow
+    token: UserAccessToken
+    aes-key: m60387sv97e2kzb5mane7k78u67zealbm081izbh1ws
+    ticket: userTicket
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
+  type-aliases-package: cn.lnexin.dingtalk.entity  # 注意：对应实体类的路径
